@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Leer configuración desde el archivo JSON
 CONFIG_FILE="config.json"
 
 N_VMS=$(jq -r '.N_VMS' $CONFIG_FILE)
@@ -12,6 +11,11 @@ IMAGE_PROJECT=$(jq -r '.IMAGE_PROJECT' $CONFIG_FILE)
 BUCKET_NAME=$(jq -r '.BUCKET_NAME' $CONFIG_FILE)
 SERVICE_ACCOUNT=$(jq -r '.SERVICE_ACCOUNT' $CONFIG_FILE)
 SETUP_SCRIPT=$(jq -r '.SETUP_SCRIPT' $CONFIG_FILE)
+BUCKET_ZONE=$(jq -r '.BUCKET_ZONE' $CONFIG_FILE)
+REPO_NAME=$(jq -r '.REPO_NAME' $CONFIG_FILE)
+REPO_URL=$(jq -r '.REPO_URL' $CONFIG_FILE)
+SCRIPT_PATH=$(jq -r '.SCRIPT_PATH' $CONFIG_FILE)
+DEPENDENCIES=$(jq -r '.DEPENDENCIES' $CONFIG_FILE)
 
 for ((i = 1; i <= N_VMS; i++)); do
     INSTANCE_NAME="$INSTANCE_NAME_BASE-$i"
@@ -34,7 +38,7 @@ for ((i = 1; i <= N_VMS; i++)); do
     gcloud compute scp "$SETUP_SCRIPT" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
     echo "[CLOUDEXEC] Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT $INSTANCE_NAME $BUCKET_NAME"
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT $INSTANCE_NAME $BUCKET_NAME $BUCKET_ZONE $REPO_NAME $REPO_URL $SCRIPT_PATH '$DEPENDENCIES'"
 
     echo "[CLOUDEXEC] Fin del proceso $INSTANCE_NAME."
 done
