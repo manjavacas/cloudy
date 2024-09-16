@@ -1,6 +1,6 @@
-# **CLOUDEXEC**
+# **CLOUDY**
 
-**CLOUDEXEC** es un proyecto que proporciona scripts básicos para gestionar instancias de máquinas virtuales y buckets en Google Cloud. Los scripts permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
+**CLOUDY** es un proyecto que proporciona scripts básicos para gestionar instancias de máquinas virtuales y buckets en Google Cloud. Los scripts permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
 
 ## **Scripts**
 
@@ -11,7 +11,7 @@ Este proyecto consta de los siguientes scripts:
 3. **`clean_cloud.sh`**: limpia todas las instancias de máquinas virtuales y buckets en Google Cloud.
 4. **`Makefile`**: facilita la ejecución de los scripts mediante comandos simples.
 
-## **Cómo utilizar CLOUDEXEC**
+## **Cómo utilizar CLOUDY**
 
 1. **Configurar `config.json`.**
 

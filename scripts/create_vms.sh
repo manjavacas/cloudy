@@ -20,7 +20,7 @@ DEPENDENCIES=$(jq -r '.DEPENDENCIES' $CONFIG_FILE)
 for ((i = 1; i <= N_VMS; i++)); do
     INSTANCE_NAME="$INSTANCE_NAME_BASE-$i"
 
-    echo "[CLOUDEXEC] Creando instancia: $INSTANCE_NAME..."
+    echo "[CLOUDY] Creando instancia: $INSTANCE_NAME..."
     gcloud compute instances create "$INSTANCE_NAME" \
         --zone="$ZONE" \
         --machine-type="$MACHINE_TYPE" \
@@ -30,15 +30,15 @@ for ((i = 1; i <= N_VMS; i++)); do
         --scopes https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/devstorage.full_control
 
     while ! gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="echo VM preparada" 2>/dev/null; do
-        echo "[CLOUDEXEC] Esperando a que el servicio SSH esté disponible..."
+        echo "[CLOUDY] Esperando a que el servicio SSH esté disponible..."
         sleep 10
     done
 
-    echo "[CLOUDEXEC] Copiando el script de setup a la instancia..."
+    echo "[CLOUDY] Copiando el script de setup a la instancia..."
     gcloud compute scp "$SETUP_SCRIPT" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
-    echo "[CLOUDEXEC] Ejecutando el script de setup en la instancia..."
+    echo "[CLOUDY] Ejecutando el script de setup en la instancia..."
     gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT '$INSTANCE_NAME' '$BUCKET_NAME' '$BUCKET_ZONE' '$REPO_NAME' '$REPO_URL' '$SCRIPT_PATH' '$DEPENDENCIES'"
 
-    echo "[CLOUDEXEC] Fin del proceso $INSTANCE_NAME."
+    echo "[CLOUDY] Fin del proceso $INSTANCE_NAME."
 done
