@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$#" -ne 8 ]; then
+if [ "$#" -ne 7 ]; then
   echo "[CLOUDEXEC] Error: se deben proporcionar todos los argumentos necesarios."
   exit 1
 fi
@@ -52,8 +52,10 @@ if [ -f "$OUTPUT_FILE" ]; then
     echo "[CLOUDEXEC] Archivo subido a gs://$BUCKET_NAME/$OUTPUT_FILE"
   else
     echo "[CLOUDEXEC] Error: no se pudo subir el archivo a Google Cloud Storage."
+    exit 1
   fi
 
 else
   echo "[CLOUDEXEC] Error: No se encontró el archivo de salida $OUTPUT_FILE."
+  exit 1
 fi

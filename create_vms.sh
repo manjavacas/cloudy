@@ -38,7 +38,8 @@ for ((i = 1; i <= N_VMS; i++)); do
     gcloud compute scp "$SETUP_SCRIPT" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
     echo "[CLOUDEXEC] Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT $INSTANCE_NAME $BUCKET_NAME $BUCKET_ZONE $REPO_NAME $REPO_URL $SCRIPT_PATH '$DEPENDENCIES'"
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT '$INSTANCE_NAME' '$BUCKET_NAME' '$BUCKET_ZONE' '$REPO_NAME' '$REPO_URL' '$SCRIPT_PATH' '$DEPENDENCIES'"
+
 
     echo "[CLOUDEXEC] Fin del proceso $INSTANCE_NAME."
 done
