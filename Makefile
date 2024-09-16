@@ -1,12 +1,12 @@
 CONFIG_FILE := config.json
-CREATE_VMS_SCRIPT := ./scripts/create_vms.sh
+LAUNCH_SCRIPT := ./scripts/launch.sh
 CLEAN_CLOUD_SCRIPT := ./scripts/clean_cloud.sh
 
 all: launch
 
 launch:
 	@echo "Creando instancias de VM..."
-	@bash $(CREATE_VMS_SCRIPT)
+	@bash $(LAUNCH_SCRIPT)
 
 clean:
 	@echo "Limpiando recursos en Google Cloud..."
