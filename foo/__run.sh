@@ -9,7 +9,7 @@ for i in $(seq 1 2); do
     --metadata startup-script='#! /bin/bash
       sudo apt-get update
       sudo apt-get install -y python3-pip
-      pip3 install numpy
+      pip install numpy
       git clone https://github.com/manjavacas/cloudexec.git
       cd cloudexec/scripts
       python3 foo.py "Joe" > output.txt'
