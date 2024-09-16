@@ -13,6 +13,10 @@ Este proyecto consta de los siguientes scripts:
 
 ## **Cómo utilizar CLOUDY**
 
+0. **Prerrequisitos**.
+
+   Debes contar con una cuenta de servicio
+
 1. **Configurar `config.json`.**
 
    Define tu configuración en el archivo `config.json`. Por ejemplo:
