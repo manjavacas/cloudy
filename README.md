@@ -6,10 +6,10 @@
 
 Este proyecto consta de los siguientes scripts:
 
-1. **`create_vms.sh`**: crea instancias de máquinas virtuales en Google Cloud según la configuración definida en `config.json`.
-2. **`setup.sh`**: se ejecuta en cada instancia creada, instala dependencias, clona un repositorio, ejecuta un script de Python y guarda los resultados en un bucket de Google Cloud.
-3. **`clean_cloud.sh`**: limpia todas las instancias de máquinas virtuales y buckets en Google Cloud.
-4. **`Makefile`**: facilita la ejecución de los scripts mediante comandos simples.
+1. `create_vms.sh`: crea instancias de máquinas virtuales en Google Cloud según la configuración definida en `config.json`.
+2. `setup.sh`: se ejecuta en cada instancia creada, instala dependencias, clona un repositorio, ejecuta un script de Python y guarda los resultados en un bucket de Google Cloud.
+3. `clean_cloud.sh`: limpia todas las instancias de máquinas virtuales y buckets en Google Cloud.
+4. `Makefile`: facilita la ejecución de los scripts mediante comandos simples.
 
 ## **Cómo utilizar CLOUDY**
 
