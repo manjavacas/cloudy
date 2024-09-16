@@ -23,12 +23,12 @@ Este proyecto consta de los siguientes scripts:
 
    ```json
     {
-    "N_VMS": 4,
-    "INSTANCE_NAME_BASE": "vm-name",
-    "BUCKET_NAME": "bucket-name",
-    "REPO_NAME": "repo-name",
-    "REPO_URL": "https://github.com/user-name/repo-name.git",
-    "SCRIPT_PATH": "script-name",
+    "N_VMS": 1,
+    "INSTANCE_NAME_BASE": "vm-id",
+    "BUCKET_NAME": "bucket-id",
+    "REPO_NAME": "cloudy",
+    "REPO_URL": "https://github.com/manjavacas/cloudy.git",
+    "SCRIPT_PATH": "foo/foo.py",
     "DEPENDENCIES": "numpy pandas",
     "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
     "SETUP_SCRIPT": "setup.sh",
@@ -39,6 +39,15 @@ Este proyecto consta de los siguientes scripts:
     "BUCKET_ZONE": "eu"
     }
     ```
+
+    Los principales campos a editar son:
+
+    - `INSTANCE_NAME_BASE` y `BUCKET_NAME`: identificador de las instancias y *bucket* creados.
+    - `REPO_NAME` y `REPO_URL`: repositorio a clonar. En él se ubica el código que queremos ejecutar.
+    - `DEPENDENCIES`: dependencias requeridas para ejecutar el *script*.
+    - `SCRIPT_PATH`: ruta al *script* de Python que se encuentra en el repositorio y que queremos ejecutar.
+    - `SERVICE_ACCOUNT`: cuenta de servicio en GCP que vamos a utilizar. Debe contar con los permisos necesarios.
+
 
 2. **Instalar las dependencias necesarias.**
 
