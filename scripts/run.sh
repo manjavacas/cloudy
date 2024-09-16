@@ -51,20 +51,20 @@ if [ -f "$OUTPUT_FILE" ]; then
 
   # Verificar si el bucket ya existe
   if gsutil ls -b "gs://$BUCKET_NAME" &>/dev/null; then
-    echo "[CLOUDEXEC] El bucket gs://$BUCKET_NAME ya existe."
-  else
-    echo "[CLOUDEXEC] El bucket gs://$BUCKET_NAME no existe. Creando el bucket..."
-    gsutil mb -l us-central1 "gs://$BUCKET_NAME/"
-  fi
+    echo "[CLOUDEXEC] El bucket gs://$BUCKET_NAME existe."
 
-  # Subir el archivo al bucket de Google Cloud Storage
-  gsutil cp "$OUTPUT_FILE" "gs://$BUCKET_NAME/"
+    # Subir el archivo al bucket de Google Cloud Storage
+    gsutil cp "$OUTPUT_FILE" "gs://$BUCKET_NAME/"
 
-  # Verificar subida
-  if [ $? -eq 0 ]; then
-    echo "[CLOUDEXEC] Archivo subido a gs://$BUCKET_NAME/$OUTPUT_FILE"
+    # Verificar subida
+    if [ $? -eq 0 ]; then
+      echo "[CLOUDEXEC] Archivo subido a gs://$BUCKET_NAME/$OUTPUT_FILE"
+    else
+      echo "[CLOUDEXEC] Error: no se pudo subir el archivo a Google Cloud Storage."
+    fi
+
   else
-    echo "[CLOUDEXEC] Error al subir el archivo a Google Cloud Storage."
+    echo "[CLOUDEXEC] Error: El bucket gs://$BUCKET_NAME NO existe."
   fi
 
 else
