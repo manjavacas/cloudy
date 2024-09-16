@@ -1,6 +1,6 @@
 #!/bin/bash
 
-N_VMS=2
+N_VMS=1
 
 INSTANCE_NAME_BASE="vm-experiment"
 
@@ -10,7 +10,9 @@ ZONE="europe-southwest1-b"
 IMAGE_FAMILY="ubuntu-2004-lts"
 IMAGE_PROJECT="ubuntu-os-cloud"
 
-SETUP_SCRIPT="setup.sh"
+BUCKET_NAME="hybridmodels"
+
+SCRIPT_FILE="run.sh"
 
 for ((i = 1; i <= N_VMS; i++)); do
     INSTANCE_NAME="$INSTANCE_NAME_BASE-$i"
@@ -28,10 +30,10 @@ for ((i = 1; i <= N_VMS; i++)); do
     done
 
     echo "Copiando el script de setup a la instancia..."
-    gcloud compute scp "$SETUP_SCRIPT" "$INSTANCE_NAME:~/" --zone="$ZONE"
+    gcloud compute scp "$SCRIPT_FILE" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
     echo "Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/setup.sh && ~/setup.sh $INSTANCE_NAME"
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/setup.sh && ~/setup.sh $INSTANCE_NAME $BUCKET_NAME"
 
     echo "Instancia $INSTANCE_NAME lista y configurada."
 done
