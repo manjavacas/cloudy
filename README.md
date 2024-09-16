@@ -1,8 +1,8 @@
-# **CLOUDY**
+# ☁️ **CLOUDY**
 
 **CLOUDY** es un proyecto que proporciona scripts básicos para gestionar instancias de máquinas virtuales y buckets en Google Cloud. Los scripts permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
 
-## **Scripts**
+## 📄 **Scripts**
 
 Este proyecto consta de los siguientes scripts:
 
@@ -11,26 +11,26 @@ Este proyecto consta de los siguientes scripts:
 3. `clean_cloud.sh`: limpia todas las instancias de máquinas virtuales y buckets en Google Cloud.
 4. `Makefile`: facilita la ejecución de los scripts mediante comandos simples.
 
-## **Cómo utilizar CLOUDY**
+## 💻 **Cómo utilizar CLOUDY**
 
 0. **Prerrequisitos**.
 
-   Debes contar con una cuenta de servicio
+   Debes contar con una cuenta de servicio en GCP con los permisos requeridos por *Compute engine* y *Cloud Storage*.
 
 1. **Configurar `config.json`.**
 
-   Define tu configuración en el archivo `config.json`. Por ejemplo:
+   Define tu configuración en el archivo `config.json`, ubicado en el directorio raíz del proyecto. Por ejemplo:
 
    ```json
     {
     "N_VMS": 4,
-    "INSTANCE_NAME_BASE": "instance_name",
-    "BUCKET_NAME": "bucket_name",
-    "REPO_NAME": "repo_name",
-    "REPO_URL": "https://github.com/user/repo_name.git",
-    "SCRIPT_PATH": "script_name",
+    "INSTANCE_NAME_BASE": "vm-name",
+    "BUCKET_NAME": "bucket-name",
+    "REPO_NAME": "repo-name",
+    "REPO_URL": "https://github.com/user-name/repo-name.git",
+    "SCRIPT_PATH": "script-name",
     "DEPENDENCIES": "numpy pandas",
-    "SERVICE_ACCOUNT": "service@account.iam.gserviceaccount.com",
+    "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
     "SETUP_SCRIPT": "setup.sh",
     "MACHINE_TYPE": "e2-medium",
     "ZONE": "europe-southwest1-b",
@@ -39,6 +39,7 @@ Este proyecto consta de los siguientes scripts:
     "BUCKET_ZONE": "eu"
     }
     ```
+
 2. **Instalar las dependencias necesarias.**
 
     - *Google Cloud SDK*: necesario para interactuar con Google Cloud desde la línea de comandos.
@@ -57,4 +58,10 @@ Este proyecto consta de los siguientes scripts:
 
     ```bash
     make clean
+    ```
+
+    - Elimina todas las máquinas/buckets y vuelve a lanzar con:
+
+    ```bash
+    make reset
     ```
