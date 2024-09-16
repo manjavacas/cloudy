@@ -33,7 +33,7 @@ for ((i = 1; i <= N_VMS; i++)); do
     gcloud compute scp "$SCRIPT_FILE" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
     echo "Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/run.sh && ~/run.sh $INSTANCE_NAME $BUCKET_NAME"
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/scripts/run.sh && ~/scripts/run.sh $INSTANCE_NAME $BUCKET_NAME"
 
     echo "Instancia $INSTANCE_NAME lista y configurada."
 done
