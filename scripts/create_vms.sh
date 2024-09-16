@@ -12,12 +12,12 @@ IMAGE_PROJECT="ubuntu-os-cloud"
 
 BUCKET_NAME="hybridmodels"
 
-SCRIPT_FILE="run.sh"
+SCRIPT_FILE="./scripts/run.sh"
 
 for ((i = 1; i <= N_VMS; i++)); do
     INSTANCE_NAME="$INSTANCE_NAME_BASE-$i"
 
-    echo "Creando instancia: $INSTANCE_NAME..."
+    echo "[CLOUDEXEC] Creando instancia: $INSTANCE_NAME..."
     gcloud compute instances create "$INSTANCE_NAME" \
         --zone="$ZONE" \
         --machine-type="$MACHINE_TYPE" \
@@ -25,15 +25,15 @@ for ((i = 1; i <= N_VMS; i++)); do
         --image-project="$IMAGE_PROJECT"
 
     while ! gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="echo VM preparada" 2>/dev/null; do
-        echo "Esperando a que el servicio SSH esté disponible..."
+        echo "[CLOUDEXEC] Esperando a que el servicio SSH esté disponible..."
         sleep 10
     done
 
-    echo "Copiando el script de setup a la instancia..."
+    echo "[CLOUDEXEC] Copiando el script de setup a la instancia..."
     gcloud compute scp "$SCRIPT_FILE" "$INSTANCE_NAME:~/" --zone="$ZONE"
 
-    echo "Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/scripts/run.sh && ~/scripts/run.sh $INSTANCE_NAME $BUCKET_NAME"
+    echo "[CLOUDEXEC] Ejecutando el script de setup en la instancia..."
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/run.sh && ~/run.sh $INSTANCE_NAME $BUCKET_NAME"
 
-    echo "Instancia $INSTANCE_NAME lista y configurada."
+    echo "[CLOUDEXEC] Fin del proceso $INSTANCE_NAME."
 done
