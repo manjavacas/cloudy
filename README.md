@@ -1,6 +1,6 @@
 # ☁️ **CLOUDY**
 
-**CLOUDY** es un proyecto que proporciona scripts básicos para gestionar instancias de máquinas virtuales y buckets en Google Cloud. Los scripts permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
+**CLOUDY** es un proyecto que proporciona *scripts* básicos para gestionar instancias de máquinas virtuales y *buckets* en [Google Cloud](https://console.cloud.google.com). Los scripts permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
 
 ## 📄 **Scripts**
 
@@ -15,7 +15,7 @@ Este proyecto consta de los siguientes scripts:
 
 0. **Prerrequisitos**.
 
-   Debes contar con una cuenta de servicio en GCP con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. Administrador de almacenamiento).
+   Debes contar con una [cuenta de servicio en GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=es-419) con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. administrador de almacenamiento).
 
 1. **Configurar `config.json`.**
 

@@ -1,36 +1,40 @@
 #!/bin/bash
 
+info() {
+    echo -e "\033[34m$@\033[0m"
+}
+
 CONFIG_FILE="config.json"
 
 ZONE=$(jq -r '.ZONE' $CONFIG_FILE)
 
 # Eliminar instancias de VM
-echo "[CLOUDY] Listando instancias de VM..."
+info "[CLOUDY] Listando instancias de VM..."
 INSTANCES=$(gcloud compute instances list --format="value(name)" --zones="$ZONE")
 
 if [ -z "$INSTANCES" ]; then
-  echo "[CLOUDY] No hay instancias de VM para eliminar."
+  info "[CLOUDY] No hay instancias de VM para eliminar."
 else
-  echo "[CLOUDY] Eliminando instancias de VM..."
+  info "[CLOUDY] Eliminando instancias de VM..."
   for INSTANCE in $INSTANCES; do
-    echo "[CLOUDY] Eliminando instancia: $INSTANCE..."
+    info "[CLOUDY] Eliminando instancia: $INSTANCE..."
     gcloud compute instances delete "$INSTANCE" --zone="$ZONE" --quiet
   done
-  echo "[CLOUDY] Todas las instancias de VM han sido eliminadas."
+  info "[CLOUDY] Todas las instancias de VM han sido eliminadas."
 fi
 
 # Eliminar buckets
 BUCKETS=$(gsutil ls)
 
 if [ -z "$BUCKETS" ]; then
-  echo "[CLOUDY] No hay buckets de GCS para eliminar."
+  info "[CLOUDY] No hay buckets de GCS para eliminar."
 else
-  echo "[CLOUDY] Eliminando buckets de GCS..."
+  info "[CLOUDY] Eliminando buckets de GCS..."
   for BUCKET in $BUCKETS; do
-    echo "[CLOUDY] Eliminando bucket: $BUCKET..."
+    info "[CLOUDY] Eliminando bucket: $BUCKET..."
     gsutil rm -r "$BUCKET"
   done
-  echo "[CLOUDY] Todos los buckets de GCS han sido eliminados."
+  info "[CLOUDY] Todos los buckets de GCS han sido eliminados."
 fi
 
-echo "[CLOUDY] Proceso de eliminación completado."
+info "[CLOUDY] Proceso de eliminación completado."
