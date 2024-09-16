@@ -15,7 +15,7 @@ Este proyecto consta de los siguientes scripts:
 
 0. **Prerrequisitos**.
 
-   Debes contar con una cuenta de servicio en GCP con los permisos requeridos por *Compute engine* y *Cloud Storage*.
+   Debes contar con una cuenta de servicio en GCP con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. Administrador de almacenamiento).
 
 1. **Configurar `config.json`.**
 
@@ -54,13 +54,13 @@ Este proyecto consta de los siguientes scripts:
     make launch
     ```
 
-    - Para limpiar todas las instancias y buckets, ejecuta:
+    - Para limpiar todas las instancias y *buckets*, ejecuta:
 
     ```bash
     make clean
     ```
 
-    - Elimina todas las máquinas/buckets y vuelve a lanzar con:
+    - Para eliminar máquinas y *buckets* y volver a lanzar:
 
     ```bash
     make reset
