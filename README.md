@@ -51,9 +51,9 @@ Este proyecto consta de los siguientes scripts:
 
 2. **Instalar las dependencias necesarias.**
 
-    - *Google Cloud SDK*: necesario para interactuar con Google Cloud desde la línea de comandos.
+    - `Google Cloud SDK`: necesario para interactuar con Google Cloud desde la línea de comandos.
 
-    - *jq*: empleado para leer el archivo JSON de configuración.
+    - `jq`: empleado para leer el archivo JSON de configuración.
 
 3. **Ejecución.**
 
