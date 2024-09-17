@@ -1,36 +1,44 @@
 #!/bin/bash
 
-if [ "$#" -ne 9 ]; then
+get_repo_name_from_url() {
+  local repo_url="$1"
+
+  repo_url=${repo_url%.git}
+  repo_name=$(basename "$repo_url")
+
+  echo "$repo_name"
+}
+
+if [ "$#" -ne 8 ]; then
   error "All required arguments must be provided."
   exit 1
 fi
 
-MACHINE_NAME="$1"
+INSTANCE_NAME="$1"
 BUCKET_NAME="$2"
 BUCKET_ZONE="$3"
-REPO_NAME="$4"
-REPO_URL="$5"
-SCRIPT_PATH="$6"
-DEPENDENCIES="$7"
-SCRIPT_ARGS="$8"
-ZONE="$9"
+REPO_URL="$4"
+SCRIPT_PATH="$5"
+DEPENDENCIES="$6"
+SCRIPT_ARGS="$7"
+ZONE="$8"
 
 info() {
   local message="$1"
-  echo -e "\033[32m[CLOUDY $MACHINE_NAME] $message\033[0m" # Green
+  echo -e "\033[32m[CLOUDY $INSTANCE_NAME] $message\033[0m" # Green
 }
 
 warn() {
   local message="$1"
-  echo -e "\033[33m[CLOUDY $MACHINE_NAME] $message\033[0m" # Yellow
+  echo -e "\033[33m[CLOUDY $INSTANCE_NAME] $message\033[0m" # Yellow
 }
 
 error() {
   local message="$1"
-  echo -e "\033[31m[CLOUDY $MACHINE_NAME] Error: $message\033[0m" # Red
+  echo -e "\033[31m[CLOUDY $INSTANCE_NAME] Error: $message\033[0m" # Red
 }
 
-OUTPUT_FILE="output_${MACHINE_NAME}.txt"
+OUTPUT_FILE="output_${INSTANCE_NAME}.txt"
 
 info "Updating and installing dependencies..."
 
@@ -49,12 +57,16 @@ if ! sudo apt-get install -y python3 python3-pip >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! pip3 install $DEPENDENCIES >/dev/null 2>&1; then
+if ! pip3 install $DEPENDENCIES; then
   error "Failed to install dependencies: $DEPENDENCIES."
   exit 1
 fi
 
+REPO_NAME=$(get_repo_name_from_url "$REPO_URL")
 info "Cloning repository $REPO_NAME..."
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
 
 if ! git clone "$REPO_URL" >/dev/null 2>&1; then
   error "Failed to clone repository $REPO_NAME."
@@ -103,6 +115,6 @@ else
 fi
 
 info "Deleting instance..."
-if ! gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet >/dev/null 2>&1; then
-  echo "Failed to delete instance $MACHINE_NAME."
+if ! gcloud compute instances delete "$INSTANCE_NAME" --zone="$ZONE" --quiet >/dev/null 2>&1; then
+  echo "Failed to delete instance $INSTANCE_NAME."
 fi
