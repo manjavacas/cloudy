@@ -80,20 +80,32 @@ This project consists of the following scripts:
 
 3. **Run CLOUDY**
 
+    a. **Using `Makefile`**
+
     - To launch the virtual machine instances, run:
 
     ```bash
-    make launch
+    $ make launch
     ```
 
     - To clean up all instances and buckets, run:
 
     ```bash
-    make clean
+    $ make clean
     ```
 
     - To delete machines and buckets and then relaunch, run:
 
     ```bash
-    make reset
+    $ make reset
+    ```
+
+    b. **Using `cloudy.py`**
+
+    You can also use the `cloudy.py` script for the same purpose:
+
+    ```bash
+    $ ./cloudy.py launch
+    $ ./cloudy.py clean
+    $ ./cloudy.py reset
     ```

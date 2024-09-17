@@ -67,7 +67,7 @@ if [ -f "$OUTPUT_FILE" ]; then
   gsutil cp "$OUTPUT_FILE" "gs://$BUCKET_NAME/" >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
-    info "File saved to gs://$BUCKET_NAME/$OUTPUT_FILE!"
+    info "File saved to gs://$BUCKET_NAME/$OUTPUT_FILE"
   else
     error "Failed to save the file in Google Cloud Storage."
     exit 1
