@@ -1,0 +1,17 @@
+ {
+     "N_VMS": 1,
+     "INSTANCE_NAME_BASE": "vm-id",
+     "BUCKET_NAME": "bucket-id",
+     "REPO_NAME": "cloudy",
+     "REPO_URL": "https://github.com/manjavacas/cloudy.git",
+     "SCRIPT_PATH": "foo/foo.py",
+     "SCRIPT_ARGS": "cloudy",
+     "DEPENDENCIES": "numpy pandas",
+     "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
+     "SETUP_SCRIPT": "setup.sh",
+     "MACHINE_TYPE": "e2-medium",
+     "ZONE": "europe-southwest1-b",
+     "IMAGE_FAMILY": "ubuntu-2004-lts",
+     "IMAGE_PROJECT": "ubuntu-os-cloud",
+     "BUCKET_ZONE": "eu"
+ }
