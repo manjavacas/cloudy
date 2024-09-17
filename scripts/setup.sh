@@ -1,14 +1,5 @@
 #!/bin/bash
 
-get_repo_name_from_url() {
-  local repo_url="$1"
-
-  repo_url=${repo_url%.git}
-  repo_name=$(basename "$repo_url")
-
-  echo "$repo_name"
-}
-
 if [ "$#" -ne 8 ]; then
   error "All required arguments must be provided."
   exit 1
@@ -17,73 +8,91 @@ fi
 INSTANCE_NAME="$1"
 BUCKET_NAME="$2"
 BUCKET_ZONE="$3"
-REPO_URL="$4"
+REPO_NAME="$4"
 SCRIPT_PATH="$5"
 DEPENDENCIES="$6"
 SCRIPT_ARGS="$7"
 ZONE="$8"
 
+######################################################
+
 info() {
   local message="$1"
-  echo -e "\033[32m[CLOUDY $INSTANCE_NAME] $message\033[0m" # Green
+  echo -e "\033[32m[CLOUDY $INSTANCE_NAME] $message\033[0m"
 }
 
 warn() {
   local message="$1"
-  echo -e "\033[33m[CLOUDY $INSTANCE_NAME] $message\033[0m" # Yellow
+  echo -e "\033[33m[CLOUDY $INSTANCE_NAME] $message\033[0m"
 }
 
 error() {
   local message="$1"
-  echo -e "\033[31m[CLOUDY $INSTANCE_NAME] Error: $message\033[0m" # Red
+  echo -e "\033[31m[CLOUDY $INSTANCE_NAME] Error: $message\033[0m"
 }
 
-OUTPUT_FILE="output_${INSTANCE_NAME}.txt"
+delete_instance() {
+  warn "Deleting instance $INSTANCE_NAME..."
+  if ! gcloud compute instances delete "$INSTANCE_NAME" --zone="$ZONE" --quiet >/dev/null 2>&1; then
+    echo "Failed to delete instance $INSTANCE_NAME."
+    exit 1
+  fi
+}
 
-info "Updating and installing dependencies..."
+######################################################
+
+info "Preparing VM instance..."
 
 if ! sudo apt-get update >/dev/null 2>&1; then
   error "Failed to update packages."
+  delete_instance
   exit 1
 fi
 
 if ! sudo apt-get upgrade -y >/dev/null 2>&1; then
   error "Failed to upgrade packages."
+  delete_instance
   exit 1
 fi
 
 if ! sudo apt-get install -y python3 python3-pip >/dev/null 2>&1; then
   error "Failed to configure python."
+  delete_instance
   exit 1
 fi
 
-if ! pip3 install $DEPENDENCIES; then
-  error "Failed to install dependencies: $DEPENDENCIES."
-  exit 1
-fi
-
-REPO_NAME=$(get_repo_name_from_url "$REPO_URL")
-info "Cloning repository $REPO_NAME..."
-
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa
-
-if ! git clone "$REPO_URL" >/dev/null 2>&1; then
-  error "Failed to clone repository $REPO_NAME."
-  exit 1
-fi
+######################################################
 
 cd "$REPO_NAME" || {
   error "Directory $REPO_NAME not found"
+  delete_instance
   exit 1
 }
 
+######################################################
+
+if [ -n "$DEPENDENCIES" ]; then
+  info "Installing dependencies: $DEPENDENCIES..."
+  if ! pip3 install $DEPENDENCIES; then
+    error "Failed to install dependencies: $DEPENDENCIES."
+    delete_instance
+    exit 1
+  fi
+fi
+
+######################################################
+
 info "Running script: python3 $SCRIPT_PATH $SCRIPT_ARGS..."
 
-if ! python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1; then
+OUTPUT_FILE="output_${INSTANCE_NAME}.txt"
+
+if ! python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE"; then
   error "Failed to run script $SCRIPT_PATH."
+  delete_instance
   exit 1
 fi
+
+######################################################
 
 if [ -f "$OUTPUT_FILE" ]; then
 
@@ -106,15 +115,17 @@ if [ -f "$OUTPUT_FILE" ]; then
     info "File saved to gs://$BUCKET_NAME/$OUTPUT_FILE"
   else
     error "Failed to save the file in Google Cloud Storage."
+    delete_instance
     exit 1
   fi
 
 else
-  error "Output file $OUTPUT_FILE not found!"
+  error "Output file $OUTPUT_FILE not found."
+  delete_instance
   exit 1
 fi
 
-info "Deleting instance..."
-if ! gcloud compute instances delete "$INSTANCE_NAME" --zone="$ZONE" --quiet >/dev/null 2>&1; then
-  echo "Failed to delete instance $INSTANCE_NAME."
-fi
+######################################################
+
+info "Work completed!"
+delete_instance

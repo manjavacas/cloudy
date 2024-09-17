@@ -13,9 +13,9 @@
 
 The workflow of **CLOUDY** comprises the following steps:
 
-1. The script `launch.sh` launches a VM instance, according to the options specified in the `config.json` file.
+1. The script `launch.sh` prepares VM instance, according to the options specified in the `config.json` file.
 
-2. The script `setup.sh` is executed in the VM to install dependencies, download the specified repository and run the Python script indicated.
+2. The script `setup.sh` is executed in the VM to install dependencies and run the Python script indicated.
 
 3. The output is saved to an existing bucket, or a new one is created as required.
 
@@ -29,8 +29,8 @@ The workflow of **CLOUDY** comprises the following steps:
 
 This project consists of the following scripts:
 
-- `launch.sh`: creates a VM instance on Google Cloud according to the configuration defined in `config.json`.
-- `setup.sh`: runs on the VM instance. Installs dependencies, clones a repository, runs a Python script, and saves the results to a Google Cloud bucket, creating it if necessary.
+- `launch.sh`: creates a VM instance on Google Cloud according to the configuration defined in `config.json`. It also downloads and copies your repository to the VM instance.
+- `setup.sh`: runs on the VM instance. Installs dependencies, runs your Python script, and saves the results to a Google Cloud bucket, creating it if necessary.
 - `clean.sh`: cleans up all VM instances and buckets on Google Cloud.
 - `Makefile`: enables the execution of the scripts through simple commands.
 
@@ -52,16 +52,15 @@ This project consists of the following scripts:
 
    ```json
     {
-        "INSTANCE_NAME_BASE": "vm-id",
+        "INSTANCE_NAME": "vm-id",
         "BUCKET_NAME": "bucket-id",
-        "GITHUB_USER": "github-id",
         "REPO_URL": "https://github.com/manjavacas/cloudy.git",
         "SCRIPT_PATH": "foo/foo.py",
         "SCRIPT_ARGS": "cloudy",
         "DEPENDENCIES": "numpy pandas",
         "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
         "SETUP_SCRIPT": "setup.sh",
-        "MACHINE_TYPE": "e2-medium",
+        "MACHINE_TYPE": "n2-standard-2",
         "ZONE": "europe-southwest1-b",
         "IMAGE_FAMILY": "ubuntu-2004-lts",
         "IMAGE_PROJECT": "ubuntu-os-cloud",
@@ -72,8 +71,7 @@ This project consists of the following scripts:
     The main options to edit are:
 
     - `INSTANCE_NAME` and `BUCKET_NAME`: identifiers for the created instances and bucket.
-    - `GITHUB_USER`: your GitHub user, needed for downloading the repository.
-    - ``REPO_URL`: repository to clone. This is where the code you want to execute is located.
+    - `REPO_URL`: the repository to clone. This is where the code you want to execute is located.
     - `SCRIPT_PATH` and `SCRIPT_ARGS`: path to the Python script you want to execute in the repository, along with its input arguments.
     - `DEPENDENCIES`: dependencies required to run the Python script.
     - `SERVICE_ACCOUNT`: GCP service account to be used. It must have the necessary permissions.
@@ -102,10 +100,10 @@ This project consists of the following scripts:
 
     b. **Using `cloudy.py`**
 
-    You can also use the `cloudy.py` script for the same purpose:
+    Alternatively, you can use the Python script `cloud.py` for the same operations:
 
     ```bash
-    $ ./cloudy.py launch
-    $ ./cloudy.py clean
-    $ ./cloudy.py reset
+    $ python cloudy.py launch
+    $ python cloudy.py clean
+    $ python cloudy.py reset
     ```
