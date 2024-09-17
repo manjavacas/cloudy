@@ -19,7 +19,7 @@ El flujo de trabajo de **CLOUDY** es el siguiente:
 
 3. La salida se guarda en un *bucket* existente, o lo crea en caso contrario.
 
-4. Las máquinas se autoeliminan una vez han finalizada su ejecución.
+4. Las máquinas se autoeliminan una vez finalizada su ejecución.
 
 <p align="center">
     <img src="images/diagram.png" alt="DIAGRAMA" width=80% />
