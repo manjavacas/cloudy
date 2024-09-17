@@ -5,7 +5,7 @@ info() {
     echo -e "\033[34m[CLOUDY] $message\033[0m"
 }
 
-CONFIG_FILE="config.json"
+CONFIG_FILE="$1"
 
 N_VMS=$(jq -r '.N_VMS' $CONFIG_FILE)
 INSTANCE_NAME_BASE=$(jq -r '.INSTANCE_NAME_BASE' $CONFIG_FILE)
