@@ -40,7 +40,7 @@ Este proyecto consta de los siguientes *scripts*:
 
    Debes contar con una [cuenta de servicio en GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=es-419) con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. administrador de almacenamiento).
 
-1. **Configurar `config.json`.**
+1. **Definir `config.json`.**
 
    Define tu configuración en el archivo `config.json`, ubicado en el directorio raíz del proyecto. Por ejemplo:
 
