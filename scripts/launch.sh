@@ -21,6 +21,7 @@ REPO_NAME=$(jq -r '.REPO_NAME' $CONFIG_FILE)
 REPO_URL=$(jq -r '.REPO_URL' $CONFIG_FILE)
 SCRIPT_PATH=$(jq -r '.SCRIPT_PATH' $CONFIG_FILE)
 DEPENDENCIES=$(jq -r '.DEPENDENCIES' $CONFIG_FILE)
+SCRIPT_ARGS=$(jq -r '.SCRIPT_ARGS' $CONFIG_FILE)
 
 for ((i = 1; i <= N_VMS; i++)); do
     INSTANCE_NAME="$INSTANCE_NAME_BASE-$i"
@@ -43,7 +44,7 @@ for ((i = 1; i <= N_VMS; i++)); do
     gcloud compute scp scripts/$SETUP_SCRIPT "$INSTANCE_NAME:~/" --zone="$ZONE"
 
     info "Ejecutando el script de setup en la instancia..."
-    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT '$INSTANCE_NAME' '$BUCKET_NAME' '$BUCKET_ZONE' '$REPO_NAME' '$REPO_URL' '$SCRIPT_PATH' '$DEPENDENCIES'"
+    gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="chmod +x ~/$SETUP_SCRIPT && ~/$SETUP_SCRIPT '$INSTANCE_NAME' '$BUCKET_NAME' '$BUCKET_ZONE' '$REPO_NAME' '$REPO_URL' '$SCRIPT_PATH' '$DEPENDENCIES' '$SCRIPT_ARGS' '$ZONE'"
 
     info "Fin del proceso de creación de $INSTANCE_NAME."
 done

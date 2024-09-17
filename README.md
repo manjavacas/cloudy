@@ -1,17 +1,30 @@
-# ☁️ **CLOUDY**
 
-**CLOUDY** proporciona *scripts* básicos para gestionar instancias de máquinas virtuales y *buckets* en [Google Cloud](https://console.cloud.google.com). Los *scripts* permiten crear instancias, instalar dependencias, ejecutar scripts de Python y manejar la limpieza de recursos.
+<p align="center">
+    <img src="images/logo.png" alt="CLOUDY" width=40% />
+</p>
+
+**CLOUDY** automatiza la ejecución de experimentos en máquinas virtuales de [Google Cloud](https://console.cloud.google.com). Crea instancias y *buckets*, instala dependencias, ejecuta *scripts* de Python y maneja la limpieza de recursos.
+
+## ✅ **¿Cómo funciona?**
+
+El flujo de trabajo de **CLOUDY** es el siguiente:
+
+1. El *script* `launch.sh` lanza un número determinado de instancias de máquinas virtuales, de acuerdo a las opciones especificadas en el fichero `config.json`.
+
+2. En cada máquina virtual se ejecuta el *script* `setup.sh`, que instala dependencias, descarga un repositorio y ejecuta un *script* especificado.
+
+3. La salida se guarda en un *bucket* existente, o lo crea en caso contrario.
 
 ## 📄 **Scripts**
 
-Este proyecto consta de los siguientes scripts:
+Este proyecto consta de los siguientes *scripts*:
 
-1. `launch.sh`: crea instancias de máquinas virtuales en Google Cloud según la configuración definida en `config.json`.
-2. `setup.sh`: se ejecuta en cada instancia creada, instala dependencias, clona un repositorio, ejecuta un *script* de Python y guarda los resultados en un *bucket* de Google Cloud.
-3. `clean_cloud.sh`: limpia todas las instancias de máquinas virtuales y *buckets* en Google Cloud.
-4. `Makefile`: facilita la ejecución de los *scripts* mediante comandos simples.
+-  `launch.sh`: crea instancias de máquinas virtuales en Google Cloud según la configuración definida en `config.json`.
+-  `setup.sh`: se ejecuta en cada instancia creada, instala dependencias, clona un repositorio, ejecuta un *script* de Python y guarda los resultados en un *bucket* de Google Cloud.
+-  `clean_cloud.sh`: limpia todas las instancias de máquinas virtuales y *buckets* en Google Cloud.
+-  `Makefile`: facilita la ejecución de los *scripts* mediante comandos simples.
 
-## 💻 **Cómo utilizar CLOUDY**
+## 💻 **¿Cómo utilizar CLOUDY?**
 
 0. **Prerrequisitos**.
 
@@ -29,6 +42,7 @@ Este proyecto consta de los siguientes scripts:
         "REPO_NAME": "cloudy",
         "REPO_URL": "https://github.com/manjavacas/cloudy.git",
         "SCRIPT_PATH": "foo/foo.py",
+        "SCRIPT_ARGS": "cloudy",
         "DEPENDENCIES": "numpy pandas",
         "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
         "SETUP_SCRIPT": "setup.sh",
@@ -45,7 +59,7 @@ Este proyecto consta de los siguientes scripts:
     - `INSTANCE_NAME_BASE` y `BUCKET_NAME`: identificador de las instancias y *bucket* creados.
     - `REPO_NAME` y `REPO_URL`: repositorio a clonar. En él se ubica el código que queremos ejecutar.
     - `DEPENDENCIES`: dependencias requeridas para ejecutar el *script*.
-    - `SCRIPT_PATH`: ruta al *script* de Python que se encuentra en el repositorio y que queremos ejecutar.
+    - `SCRIPT_PATH` y `SCRIPT_ARGS`: ruta al *script* de Python que se encuentra en el repositorio y que queremos ejecutar, así como argumentos de entrada.
     - `SERVICE_ACCOUNT`: cuenta de servicio en GCP que vamos a utilizar. Debe contar con los permisos necesarios.
 
 

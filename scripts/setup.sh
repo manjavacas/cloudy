@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$#" -ne 7 ]; then
+if [ "$#" -ne 9 ]; then
   error "Se deben proporcionar todos los argumentos necesarios."
   exit 1
 fi
@@ -12,20 +12,22 @@ REPO_NAME="$4"
 REPO_URL="$5"
 SCRIPT_PATH="$6"
 DEPENDENCIES="$7"
+SCRIPT_ARGS="$8"
+ZONE="$9"
 
 info() {
   local message="$1"
-  echo -e "\033[32m[CLOUDY $MACHINE_NAME] $message\033[0m"  # Verde
+  echo -e "\033[32m[CLOUDY $MACHINE_NAME] $message\033[0m" # Verde
 }
 
 warn() {
   local message="$1"
-  echo -e "\033[33m[CLOUDY $MACHINE_NAME] $message\033[0m"  # Amarillo
+  echo -e "\033[33m[CLOUDY $MACHINE_NAME] $message\033[0m" # Amarillo
 }
 
 error() {
   local message="$1"
-  echo -e "\033[31m[CLOUDY $MACHINE_NAME] Error: $message\033[0m"  # Rojo
+  echo -e "\033[31m[CLOUDY $MACHINE_NAME] Error: $message\033[0m" # Rojo
 }
 
 OUTPUT_FILE="output_${MACHINE_NAME}.txt"
@@ -46,7 +48,7 @@ cd "$REPO_NAME"
 
 info "Ejecutando script..."
 
-python3 "$SCRIPT_PATH" "$MACHINE_NAME" >"$OUTPUT_FILE" 2>&1
+python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1
 
 if [ -f "$OUTPUT_FILE" ]; then
 
@@ -76,3 +78,7 @@ else
   error "No se encontró el archivo de salida $OUTPUT_FILE"
   exit 1
 fi
+
+info "Eliminando la instancia $MACHINE_NAME..."
+gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet
+
