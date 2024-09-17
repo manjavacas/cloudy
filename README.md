@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="images/logo.png" alt="CLOUDY" width=55% />
+    <img src="images/logo.png" alt="CLOUDY" width=50% />
 </p>
 
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
