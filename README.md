@@ -3,9 +3,13 @@
     <img src="images/logo.png" alt="CLOUDY" width=40% />
 </p>
 
+![License](https://img.shields.io/badge/license-GPLv3-blue)
+[![Release](https://badgen.net/github/release/manjavacas/cloudy)]()
+[![Contributors](https://badgen.net/github/contributors/manjavacas/cloudy)]() 
+
 **CLOUDY** automatiza la ejecución de experimentos en máquinas virtuales de [Google Cloud](https://console.cloud.google.com). Crea instancias y *buckets*, instala dependencias, ejecuta *scripts* de Python y maneja la limpieza de recursos.
 
-## ✅ **¿Cómo funciona?**
+## ⚙️ **¿Cómo funciona?**
 
 El flujo de trabajo de **CLOUDY** es el siguiente:
 
@@ -15,8 +19,10 @@ El flujo de trabajo de **CLOUDY** es el siguiente:
 
 3. La salida se guarda en un *bucket* existente, o lo crea en caso contrario.
 
+4. Las máquinas se autoeliminan una vez han finalizada su ejecución.
+
 <p align="center">
-    <img src="images/diagram.png" alt="CLOUDY WORKFLOW" width=80% />
+    <img src="images/diagram.png" alt="DIAGRAMA" width=80% />
 </p>
 
 ## 📄 **Scripts**
