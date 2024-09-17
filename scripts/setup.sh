@@ -79,6 +79,6 @@ else
   exit 1
 fi
 
-info "Eliminando la instancia $MACHINE_NAME..."
-gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet
+info "Eliminando instancia..."
+gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet 2>&1
 
