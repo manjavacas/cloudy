@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 9 ]; then
-  error "Se deben proporcionar todos los argumentos necesarios."
+  error "All required arguments must be provided."
   exit 1
 fi
 
@@ -17,68 +17,68 @@ ZONE="$9"
 
 info() {
   local message="$1"
-  echo -e "\033[32m[CLOUDY $MACHINE_NAME] $message\033[0m" # Verde
+  echo -e "\033[32m[CLOUDY $MACHINE_NAME] $message\033[0m" # Green
 }
 
 warn() {
   local message="$1"
-  echo -e "\033[33m[CLOUDY $MACHINE_NAME] $message\033[0m" # Amarillo
+  echo -e "\033[33m[CLOUDY $MACHINE_NAME] $message\033[0m" # Yellow
 }
 
 error() {
   local message="$1"
-  echo -e "\033[31m[CLOUDY $MACHINE_NAME] Error: $message\033[0m" # Rojo
+  echo -e "\033[31m[CLOUDY $MACHINE_NAME] Error: $message\033[0m" # Red
 }
 
 OUTPUT_FILE="output_${MACHINE_NAME}.txt"
 
-info "Actualizando e instalando dependencias..."
+info "Updating and installing dependencies..."
 
-# Redirigir stdout y stderr a /dev/null para ocultar la salida
 sudo apt-get update >/dev/null 2>&1
 sudo apt-get upgrade -y >/dev/null 2>&1
 sudo apt-get install -y python3 python3-pip >/dev/null 2>&1
 
 pip3 install $DEPENDENCIES >/dev/null 2>&1
 
-info "Clonando repositorio..."
+info "Cloning repository $REPO_NAME..."
 
 git clone "$REPO_URL" >/dev/null 2>&1
 cd "$REPO_NAME"
 
-info "Ejecutando script..."
+info "Running script: python3 $SCRIPT_PATH $SCRIPT_ARGS..."
 
 python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1
 
 if [ -f "$OUTPUT_FILE" ]; then
 
   if ! command -v gsutil &>/dev/null; then
-    info "Instalando Google Cloud SDK..."
+    info "Installing Google Cloud SDK..."
     sudo apt-get install -y google-cloud-sdk >/dev/null 2>&1
   fi
 
   if gsutil ls -b "gs://$BUCKET_NAME" &>/dev/null; then
-    info "El bucket gs://$BUCKET_NAME existe."
+    info "The bucket gs://$BUCKET_NAME already exists."
   else
-    warn "El bucket gs://$BUCKET_NAME NO existe. Creando bucket..."
+    warn "The bucket gs://$BUCKET_NAME does NOT exist. Creating bucket..."
     gsutil mb -l $BUCKET_ZONE "gs://$BUCKET_NAME/" >/dev/null 2>&1
   fi
 
-  info "Guardando $OUTPUT_FILE en el bucket gs://$BUCKET_NAME/..."
+  info "Saving $OUTPUT_FILE to bucket gs://$BUCKET_NAME/..."
   gsutil cp "$OUTPUT_FILE" "gs://$BUCKET_NAME/" >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
-    info "Archivo guardado en gs://$BUCKET_NAME/$OUTPUT_FILE"
+    info "File saved to gs://$BUCKET_NAME/$OUTPUT_FILE!"
   else
-    error "No se pudo guardar el archivo en Google Cloud Storage."
+    error "Failed to save the file in Google Cloud Storage."
     exit 1
   fi
 
 else
-  error "No se encontró el archivo de salida $OUTPUT_FILE"
+  error "Output file $OUTPUT_FILE not found!"
   exit 1
 fi
 
-info "Eliminando instancia..."
-gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet 2>&1
-
+info "Deleting instance..."
+if ! gcloud compute instances delete "$MACHINE_NAME" --zone="$ZONE" --quiet >/dev/null 2>&1; then
+  echo "Failed to delete instance $MACHINE_NAME."
+fi

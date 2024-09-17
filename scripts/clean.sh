@@ -14,32 +14,32 @@ CONFIG_FILE="config.json"
 
 ZONE=$(jq -r '.ZONE' $CONFIG_FILE)
 
-# Eliminar instancias de VM
+# Delete VM instances
 INSTANCES=$(gcloud compute instances list --format="value(name)" --filter="zone:($ZONE)" 2>/dev/null)
 
 if [ -z "$INSTANCES" ]; then
-  warn "No hay instancias de VM para eliminar."
+  warn "No VM instances to delete."
 else
-  info "Eliminando instancias de VM..."
+  info "Deleting VM instances..."
   for INSTANCE in $INSTANCES; do
-    info "Eliminando instancia: $INSTANCE..."
+    info "Deleting instance: $INSTANCE..."
     gcloud compute instances delete "$INSTANCE" --zone="$ZONE" --quiet
   done
-  info "Todas las instancias de VM han sido eliminadas."
+  info "All VM instances have been deleted."
 fi
 
-# Eliminar buckets
+# Delete buckets
 BUCKETS=$(gsutil ls)
 
 if [ -z "$BUCKETS" ]; then
-  warn "No hay buckets de GCS para eliminar."
+  warn "No GCS buckets to delete."
 else
-  info "Eliminando buckets de GCS..."
+  info "Deleting GCS buckets..."
   for BUCKET in $BUCKETS; do
-    info "Eliminando bucket: $BUCKET..."
+    info "Deleting bucket: $BUCKET..."
     gsutil rm -r "$BUCKET"
   done
-  info "Todos los buckets de GCS han sido eliminados."
+  info "All GCS buckets have been deleted."
 fi
 
-info "Proceso de eliminación completado."
+info "Deletion process completed."

@@ -7,42 +7,48 @@
 [![Release](https://badgen.net/github/release/manjavacas/cloudy)]()
 [![Contributors](https://badgen.net/github/contributors/manjavacas/cloudy)]() 
 
-**CLOUDY** automatiza la ejecución de experimentos en máquinas virtuales de [Google Cloud](https://console.cloud.google.com). Crea instancias y *buckets*, instala dependencias, ejecuta *scripts* de Python y maneja la limpieza de recursos.
+**CLOUDY** automates the execution of experiments on [Google Cloud](https://console.cloud.google.com). It creates instances and buckets, installs dependencies, runs Python scripts, and handles resource cleanup.
 
-## ⚙️ **¿Cómo funciona?**
+## ⚙️ **How it works?**
 
-El flujo de trabajo de **CLOUDY** es el siguiente:
+The workflow of **CLOUDY** comprises the following steps:
 
-1. El *script* `launch.sh` lanza un número determinado de instancias de máquinas virtuales, de acuerdo a las opciones especificadas en el fichero `config.json`.
+1. The script `launch.sh` launches a specified number of virtual machine instances, according to the options specified in the `config.json` file.
 
-2. En cada máquina virtual se ejecuta el *script* `setup.sh`, que instala dependencias, descarga un repositorio y ejecuta un *script* especificado.
+2. The script `setup.sh` is executed in each VM to install dependencies, download the specified repository and run the Python script indicated.
 
-3. La salida se guarda en un *bucket* existente, o lo crea en caso contrario.
+3. The output is saved to an existing bucket, or a new one is created as required.
 
-4. Las máquinas se autoeliminan una vez finalizada su ejecución.
+4. The instances are automatically deleted once their execution has finished.
 
 <p align="center">
-    <img src="images/diagram.png" alt="DIAGRAMA" width=80% />
+    <img src="images/diagram.png" alt="DIAGRAM" width=80% />
 </p>
 
 ## 📄 **Scripts**
 
-Este proyecto consta de los siguientes *scripts*:
+This project consists of the following scripts:
 
--  `launch.sh`: crea instancias de máquinas virtuales en Google Cloud según la configuración definida en `config.json`.
--  `setup.sh`: se ejecuta en cada instancia creada, instala dependencias, clona un repositorio, ejecuta un *script* de Python y guarda los resultados en un *bucket* de Google Cloud.
--  `clean_cloud.sh`: limpia todas las instancias de máquinas virtuales y *buckets* en Google Cloud.
--  `Makefile`: facilita la ejecución de los *scripts* mediante comandos simples.
+- `launch.sh`: creates VM instances on Google Cloud according to the configuration defined in `config.json`.
+- `setup.sh`: runs on each VM instance. Installs dependencies, clones a repository, runs a Python script, and saves the results to a Google Cloud bucket, creating it if necessary.
+- `clean.sh`: cleans up all virtual machine instances and buckets on Google Cloud.
+- `Makefile`: enables the execution of the scripts through simple commands.
 
-## 💻 **¿Cómo utilizar CLOUDY?**
+## 💻 **How to use CLOUDY?**
 
-0. **Prerrequisitos**.
+1. **Prerequisites**
 
-   Debes contar con una [cuenta de servicio en GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=es-419) con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. administrador de almacenamiento, administrador de instancias de compute).
+   First, create a [service account on GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=en) with the required permissions for Compute Engine and Cloud Storage (e.g., *storage administrator*, *compute instances administrator*).
 
-1. **Definir `config.json`.**
+   Then, install the following dependencies:
 
-   Define tu configuración en el archivo `config.json`, ubicado en el directorio raíz del proyecto. Por ejemplo:
+    - `Google Cloud SDK`: required to interact with Google Cloud from the command line.
+
+    - `jq`: used to read the JSON configuration file.
+
+2. **Edit `config.json`**
+
+   Define your custom configuration in the `config.json` file, located in the root directory of the project. For example:
 
    ```json
     {
@@ -64,36 +70,29 @@ Este proyecto consta de los siguientes *scripts*:
     }
     ```
 
-    Los principales campos a editar son:
+    The main options to edit are:
 
-    - `INSTANCE_NAME_BASE` y `BUCKET_NAME`: identificador de las instancias y *bucket* creados.
-    - `REPO_NAME` y `REPO_URL`: repositorio a clonar. En él se ubica el código que queremos ejecutar.
-    - `DEPENDENCIES`: dependencias requeridas para ejecutar el *script*.
-    - `SCRIPT_PATH` y `SCRIPT_ARGS`: ruta al *script* de Python que se encuentra en el repositorio y que queremos ejecutar, así como argumentos de entrada.
-    - `SERVICE_ACCOUNT`: cuenta de servicio en GCP que vamos a utilizar. Debe contar con los permisos necesarios.
+    - `INSTANCE_NAME_BASE` and `BUCKET_NAME`: identifiers for the created instances and bucket.
+    - `REPO_NAME` and `REPO_URL`: repository to clone. This is where the code you want to execute is located.
+    - `SCRIPT_PATH` and `SCRIPT_ARGS`: path to the Python script you want to execute in the repository, along with its input arguments.
+    - `DEPENDENCIES`: dependencies required to run the Python script.
+    - `SERVICE_ACCOUNT`: GCP service account to be used. It must have the necessary permissions.
 
+3. **Run CLOUDY**
 
-2. **Instalar las dependencias necesarias.**
-
-    - `Google Cloud SDK`: necesario para interactuar con Google Cloud desde la línea de comandos.
-
-    - `jq`: empleado para leer el archivo JSON de configuración.
-
-3. **Ejecución.**
-
-    - Para crear las instancias de máquinas virtuales, ejecuta:
+    - To launch the virtual machine instances, run:
 
     ```bash
     make launch
     ```
 
-    - Para limpiar todas las instancias y *buckets*, ejecuta:
+    - To clean up all instances and buckets, run:
 
     ```bash
     make clean
     ```
 
-    - Para eliminar máquinas y *buckets* y volver a lanzar:
+    - To delete machines and buckets and then relaunch, run:
 
     ```bash
     make reset
