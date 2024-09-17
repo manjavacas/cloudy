@@ -15,6 +15,10 @@ El flujo de trabajo de **CLOUDY** es el siguiente:
 
 3. La salida se guarda en un *bucket* existente, o lo crea en caso contrario.
 
+<p align="center">
+    <img src="images/diagram.png" alt="CLOUDY WORKFLOW" width=80% />
+</p>
+
 ## 📄 **Scripts**
 
 Este proyecto consta de los siguientes *scripts*:
