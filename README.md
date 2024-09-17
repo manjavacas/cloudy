@@ -25,7 +25,7 @@ El flujo de trabajo de **CLOUDY** es el siguiente:
     <img src="images/diagram.png" alt="DIAGRAMA" width=80% />
 </p>
 
-## 📄 **_Scripts_**
+## 📄 **Scripts**
 
 Este proyecto consta de los siguientes *scripts*:
 
