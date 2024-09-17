@@ -38,7 +38,7 @@ Este proyecto consta de los siguientes *scripts*:
 
 0. **Prerrequisitos**.
 
-   Debes contar con una [cuenta de servicio en GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=es-419) con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. administrador de almacenamiento).
+   Debes contar con una [cuenta de servicio en GCP](https://cloud.google.com/iam/docs/service-accounts-create?hl=es-419) con los permisos requeridos por *Compute engine* y *Cloud Storage* (ej. administrador de almacenamiento, administrador de instancias de compute).
 
 1. **Definir `config.json`.**
 
