@@ -34,20 +34,44 @@ OUTPUT_FILE="output_${MACHINE_NAME}.txt"
 
 info "Updating and installing dependencies..."
 
-sudo apt-get update >/dev/null 2>&1
-sudo apt-get upgrade -y >/dev/null 2>&1
-sudo apt-get install -y python3 python3-pip >/dev/null 2>&1
+if ! sudo apt-get update >/dev/null 2>&1; then
+  error "Failed to update packages."
+  exit 1
+fi
 
-pip3 install $DEPENDENCIES >/dev/null 2>&1
+if ! sudo apt-get upgrade -y >/dev/null 2>&1; then
+  error "Failed to upgrade packages."
+  exit 1
+fi
+
+if ! sudo apt-get install -y python3 python3-pip >/dev/null 2>&1; then
+  error "Failed to configure python."
+  exit 1
+fi
+
+if ! pip3 install $DEPENDENCIES >/dev/null 2>&1; then
+  error "Failed to install dependencies: $DEPENDENCIES."
+  exit 1
+fi
 
 info "Cloning repository $REPO_NAME..."
 
-git clone "$REPO_URL" >/dev/null 2>&1
-cd "$REPO_NAME"
+if ! git clone "$REPO_URL" >/dev/null 2>&1; then
+  error "Failed to clone repository $REPO_NAME."
+  exit 1
+fi
+
+cd "$REPO_NAME" || {
+  error "Directory $REPO_NAME not found"
+  exit 1
+}
 
 info "Running script: python3 $SCRIPT_PATH $SCRIPT_ARGS..."
 
-python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1
+if ! python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1; then
+  error "Failed to run script $SCRIPT_PATH."
+  exit 1
+fi
 
 if [ -f "$OUTPUT_FILE" ]; then
 
