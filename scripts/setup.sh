@@ -59,7 +59,7 @@ install_dependencies() {
 run_script() {
   info "Running script: python3 $SCRIPT_PATH $SCRIPT_ARGS..."
   OUTPUT_FILE="output_${INSTANCE_NAME}.txt"
-  if ! python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE" 2>&1; then
+  if ! python3 "$SCRIPT_PATH" $SCRIPT_ARGS >"$OUTPUT_FILE"; then
     exit_with_error "Failed to run script $SCRIPT_PATH."
   fi
 }
