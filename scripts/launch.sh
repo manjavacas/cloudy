@@ -70,6 +70,9 @@ load_config() {
         SCRIPT_PATH=$(jq -r '.SCRIPT_PATH' "$config_file")
         DEPENDENCIES=$(jq -r '.DEPENDENCIES' "$config_file")
         SCRIPT_ARGS=$(jq -r '.SCRIPT_ARGS' "$config_file")
+
+        INSTANCE_NAME="${INSTANCE_NAME,,}"
+        BUCKET_NAME="${BUCKET_NAME,,}"
     fi
 }
 

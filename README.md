@@ -13,13 +13,13 @@
 
 The workflow of **CLOUDY** comprises the following steps:
 
-1. The script `launch.sh` prepares VM instance, according to the options specified in the `config.json` file.
+1. The script `launch.sh` prepares a VM instance, according to the options specified in the `config.json` file.
 
 2. The script `setup.sh` is executed in the VM to install dependencies and run the Python script indicated.
 
 3. The output is saved to an existing bucket, or a new one is created as required.
 
-4. The instances are automatically deleted once their execution has finished.
+4. The instance is automatically deleted once its execution has finished.
 
 <p align="center">
     <img src="images/diagram.png" alt="DIAGRAM" width=80% />
@@ -70,7 +70,7 @@ This project consists of the following scripts:
 
     The main options to edit are:
 
-    - `INSTANCE_NAME` and `BUCKET_NAME`: identifiers for the created instances and bucket.
+    - `INSTANCE_NAME` and `BUCKET_NAME`: identifiers for the created instance and bucket.
     - `REPO_URL`: the repository to clone. This is where the code you want to execute is located.
     - `SCRIPT_PATH` and `SCRIPT_ARGS`: path to the Python script you want to execute in the repository, along with its input arguments.
     - `DEPENDENCIES`: dependencies required to run the Python script.

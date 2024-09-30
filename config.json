@@ -1,6 +1,6 @@
 {
-    "INSTANCE_NAME": "vm-id",
-    "BUCKET_NAME": "bucket-id",
+    "INSTANCE_NAME": "vm",
+    "BUCKET_NAME": "bucket",
     "REPO_URL": "https://github.com/manjavacas/cloudy.git",
     "SCRIPT_PATH": "foo/foo.py",
     "SCRIPT_ARGS": "cloudy",

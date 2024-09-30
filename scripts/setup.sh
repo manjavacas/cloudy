@@ -115,7 +115,7 @@ main() {
   run_script
   save_output_to_bucket
 
-  check "Job completed!"
+  check "Finished."
   delete_instance
 }
 
