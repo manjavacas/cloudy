@@ -52,13 +52,13 @@ This project consists of the following scripts:
 
    ```json
     {
-        "INSTANCE_NAME": "vm-id",
-        "BUCKET_NAME": "bucket-id",
+        "INSTANCE_NAME": "vm",
+        "BUCKET_NAME": "bucket",
         "REPO_URL": "https://github.com/manjavacas/cloudy.git",
         "SCRIPT_PATH": "foo/foo.py",
         "SCRIPT_ARGS": "cloudy",
         "DEPENDENCIES": "numpy pandas",
-        "SERVICE_ACCOUNT": "your-service@account.iam.gserviceaccount.com",
+        "SERVICE_ACCOUNT": "service@account.iam.gserviceaccount.com",
         "SETUP_SCRIPT": "setup.sh",
         "MACHINE_TYPE": "n2-standard-2",
         "ZONE": "europe-southwest1-b",
