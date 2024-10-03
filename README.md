@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
 [![Release](https://badgen.net/github/release/manjavacas/cloudy)]()
 [![Contributors](https://badgen.net/github/contributors/manjavacas/cloudy)]()
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13885865.svg)](https://doi.org/10.5281/zenodo.13885865)
+[![DOI](https://zenodo.org/badge/856891057.svg)](https://doi.org/10.5281/zenodo.13885959)
 
 **CLOUDY** automates the execution of experiments on [Google Cloud](https://console.cloud.google.com). It creates VM instances and buckets, installs dependencies, runs Python scripts, and handles resource cleanup.
 
